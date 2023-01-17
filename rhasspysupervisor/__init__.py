@@ -224,6 +224,14 @@ def profile_to_conf(
             mqtt_password=mqtt_password,
         )
 
+    # Supervisord Addition
+    supervisord_addition_path = profile.read_path("supervisord_addition.conf")
+    if supervisord_addition_path.exists():
+        print("# From ", supervisord_addition_path, sep="", file=out_file)
+        with open(supervisord_addition_path) as addition_file:
+            addition = addition_file.readlines()
+            print("".join(addition), file=out_file)
+
 
 def write_boilerplate(out_file: typing.TextIO):
     """Write boilerplate settings for supervisord service"""
