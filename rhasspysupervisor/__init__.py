@@ -2887,7 +2887,7 @@ def get_speakers(
             "-X",
             "POST",
             "-H",
-            "Content-Type: audio/wav",
+            '"Content-Type: audio/wav"',
             "--data-binary",
             "@-",
             shlex.quote(str(url)),
