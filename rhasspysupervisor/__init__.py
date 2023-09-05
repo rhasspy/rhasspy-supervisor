@@ -559,17 +559,25 @@ def get_wake(
     wake_site_id = "default" if not site_ids else site_ids[0]
 
     if wake_system == "porcupine":
+        access_key = profile.get("wake.porcupine.access_key")
+
         keyword = profile.get("wake.porcupine.keyword_path") or "porcupine.ppn"
         if not keyword:
             _LOGGER.error("wake.porcupine.keyword_path required")
             return []
 
+        model_path = profile.get("wake.porcupine.model_path")
+
         sensitivity = profile.get("wake.porcupine.sensitivity", "0.5")
 
         wake_command = [
             "rhasspy-wake-porcupine-hermes",
+            "--access-key",
+            str(access_key),
             "--keyword",
             shlex.quote(str(keyword)),
+            "--model",
+            shlex.quote(str(write_path(profile, "porcupine", model_path))),
             "--sensitivity",
             str(sensitivity),
             "--keyword-dir",
